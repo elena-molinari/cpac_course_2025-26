@@ -1,4 +1,4 @@
-# Creative Computing Course 2024-2025
+# Creative Computing Course 2025-2026
 A repository to collect coding mateial for the Polimi's course "Creative Programming and Computing" held by prof. Massimiliano Zanoni in A.Y. 2025/2026
 
 # Your first git commands
