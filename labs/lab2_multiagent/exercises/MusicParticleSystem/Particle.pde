@@ -27,6 +27,13 @@ class Particle{
     noStroke();
     ellipse(this.pos.x, this.pos.y, this.radius, this.radius);    
   }
+  
+  void draw(int hue){
+    colorMode(HSB, 255);
+    fill(hue,255,255,this.lifespan);
+    noStroke();
+    ellipse(this.pos.x, this.pos.y, this.radius, this.radius);    
+  }
   boolean isDead(){
     return this.lifespan<=0;
   }

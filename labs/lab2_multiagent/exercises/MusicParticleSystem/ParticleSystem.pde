@@ -1,6 +1,8 @@
 class ParticleSystem{
   ArrayList<Particle> particles;
   PVector origin;
+  float forceScale = 1;
+  int particleHue = 255;
   
   ParticleSystem(){
     this.particles = new ArrayList<Particle>();
@@ -14,7 +16,8 @@ class ParticleSystem{
     this.particles.add(new Particle(this.origin, 10, random(0,255)));   
   }
   void followMusic(AgentFeature features){
-    ;
+    forceScale = features.energy/1000;
+    particleHue = (int) constrain(features.centroid/100,0.,255.);
     // your code here: make the particle movement, or color, or size, follow music's features
     // hint: start mapping  features.energy/1000  on small_force
   }
@@ -24,11 +27,11 @@ class ParticleSystem{
     PVector random_force=new PVector(0,0);
     for(int i=this.particles.size()-1; i>=0; i--){
       p=this.particles.get(i);
-      random_force.x=random(-small_force, small_force);
-      random_force.y=random(-small_force, small_force);
+      random_force.x=this.forceScale*random(-small_force, small_force);
+      random_force.y=this.forceScale*random(-small_force, small_force);
       p.applyForce(random_force);
       p.update();
-      p.draw();
+      p.draw(particleHue);
       p.lifespan-=0.5;
       if(p.isDead()){
          particles.remove(i);

@@ -7,6 +7,8 @@ class Boid{
     Body body;
     int id;
     color defColor = color(200, 200, 200);
+    color contactColor;
+    float time_index, dur_frames;
     int nextPoint;
     SoundFile sample;
     
@@ -18,6 +20,10 @@ class Boid{
         int i= int(min(random(0, filenames.length), filenames.length-1));    
         this.sample=new SoundFile(app, "sounds/"+filenames[i]);
         
+        this.time_index = 0;
+        this.dur_frames = 3*frameRate;
+        colorMode(HSB, 255);
+        this.contactColor = color(random(0,255),255,255);
         colorMode(RGB, 255);
     }
     void createBody(Vec2 position){
@@ -52,17 +58,25 @@ class Boid{
     }
     void contact(){    
       this.play();
+      this.changeColor();
       /*
       Ex2: add some effect to react to collisions
       */
     }
+    
+    void changeColor(){
+      this.time_index = this.dur_frames;
+    }
+    
     void draw(){
         Vec2 posPixel=box2d.getBodyPixelCoord(this.body);
        
-        fill(this.defColor);
+        //fill(this.defColor);
+        fill(lerpColor(this.defColor, this.contactColor, this.time_index/this.dur_frames));
         stroke(0);
         strokeWeight(0);        
         ellipse(posPixel.x, posPixel.y, RADIUS_BOID, RADIUS_BOID);
+        this.time_index = max(this.time_index-1,0);
     }
     Vec2 getPosition(){
       return this.body.getPosition();
@@ -101,9 +115,13 @@ class Boid{
         direction=otherPosW.sub(myPosW);
         
         if(direction.length()<AVOID_DIST){
-           /*YOUR CODE HERE: compute contribution to avoid force */           
+           /*YOUR CODE HERE: compute contribution to avoid force */ 
+           direction.normalize();
+           avoid_force.addLocal(direction.mul(-5));
         }
         else if(direction.length()<ALIGN_DIST){
+           otherVel = other.body.getLinearVelocity();
+           align_force.addLocal(otherVel.sub(myVel));
            /*YOUR CODE HERE: compute contribution to align force */                     
         }
       } // end of the loop
