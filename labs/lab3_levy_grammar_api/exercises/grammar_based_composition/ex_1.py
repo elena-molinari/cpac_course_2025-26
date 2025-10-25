@@ -5,12 +5,12 @@ from classes import Sonifier, Grammar_Sequence, metronome_grammar
 
 # %%
 grammar={
-    "S":["M", "S"],
-    "M": [["H","H"]], #your code here    
-    "H": ["h"],#your code here
+    "M": [["H","H"],["q","h","q"]], #your code here    
+    "H": ["h",["q","q"]],#your code here
 }
 
 word_duruation = { "h":0.5, #your code here
+                   "q":0.25,
                   }
 
 if __name__=="__main__":

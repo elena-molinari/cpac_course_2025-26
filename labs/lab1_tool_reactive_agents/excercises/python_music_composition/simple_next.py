@@ -5,11 +5,23 @@ import time
 from classes import Agent, Composition, ID_START
 
 class Simple_Next(Composition):
-    def __init__(self, BPM=120):
+    def __init__(self, BPM=180):
         Composition.__init__(self,BPM=BPM)
             
     def next(self):
-        pass
+        if self.id ==-1:
+            self.midinote = 60
+            self.dur = 1
+            self.amp = 1
+            self.id = 0
+        elif self.id == 0:
+            self.midinote += 1
+            if self.midinote == 84:
+                self.id = 1
+        elif self.id == 1:
+            self.midinote -= 1
+            if self.midinote == 60:
+                self.id = 0
         #your code here
 
 if __name__=="__main__":
@@ -30,4 +42,4 @@ if __name__=="__main__":
             agent.join()
         sys.exit()
 
-# %%
+
